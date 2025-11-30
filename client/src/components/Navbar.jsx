@@ -1,9 +1,21 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
+import { logoutUser } from '../services/authService'
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const { user, userData, isAuthenticated } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser()
+      navigate('/')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
 
   return (
     <nav className="bg-white shadow-lg">
@@ -28,15 +40,33 @@ function Navbar() {
             <Link to="/contact" className="text-gray-700 hover:text-primary-600 transition">
               Contact
             </Link>
-            <Link to="/login" className="text-gray-700 hover:text-primary-600 transition">
-              Login
-            </Link>
-            <Link 
-              to="/register" 
-              className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition"
-            >
-              Sign Up
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <div className="flex items-center space-x-4">
+                  <span className="text-gray-700">
+                    Welcome, {userData?.firstName || user?.displayName || 'User'}!
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="text-gray-700 hover:text-primary-600 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-gray-700 hover:text-primary-600 transition">
+                  Login
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
 
           <div className="md:hidden flex items-center">
@@ -68,12 +98,28 @@ function Navbar() {
             <Link to="/contact" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Contact
             </Link>
-            <Link to="/login" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Login
-            </Link>
-            <Link to="/register" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Sign Up
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <div className="px-3 py-2 text-gray-700 border-t mt-2 pt-2">
+                  Welcome, {userData?.firstName || user?.displayName || 'User'}!
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                  Login
+                </Link>
+                <Link to="/register" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
