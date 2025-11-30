@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "367716766026",
+    "project_id": "flight-ticket-5b8eb",
+    "storage_bucket": "flight-ticket-5b8eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367716766026:android:bbe25e0a4ecdce2e71f1b3",
+        "android_client_info": {
+          "package_name": "com.globalflights"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTYN-zFos0QgFnDKCOIbYk9SkjAdl5A1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

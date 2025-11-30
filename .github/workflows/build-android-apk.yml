@@ -1,0 +1,58 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          android-app/android/.gradle
+          android-app/android/app/build
+        key: ${{ runner.os }}-gradle-${{ hashFiles('android-app/android/**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x android-app/android/gradlew
+      working-directory: .
+      
+    - name: Install dependencies
+      run: npm install
+      working-directory: android-app
+      
+    - name: Build APK
+      run: |
+        cd android-app/android
+        ./gradlew assembleRelease
+      env:
+        ANDROID_HOME: ${{ env.ANDROID_HOME }}
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release
+        path: android-app/android/app/build/outputs/apk/release/app-release.apk
+        retention-days: 30
+
