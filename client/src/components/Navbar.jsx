@@ -42,9 +42,12 @@ function Navbar() {
             </Link>
             {isAuthenticated ? (
               <>
+                <Link to="/profile" className="text-gray-700 hover:text-primary-600 transition">
+                  Profile
+                </Link>
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-700">
-                    Welcome, {userData?.firstName || user?.displayName || 'User'}!
+                    {userData?.firstName || user?.displayName || 'User'}
                   </span>
                   <button
                     onClick={handleLogout}
@@ -100,8 +103,11 @@ function Navbar() {
             </Link>
             {isAuthenticated ? (
               <>
+                <Link to="/profile" className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded">
+                  Profile
+                </Link>
                 <div className="px-3 py-2 text-gray-700 border-t mt-2 pt-2">
-                  Welcome, {userData?.firstName || user?.displayName || 'User'}!
+                  {userData?.firstName || user?.displayName || 'User'}
                 </div>
                 <button
                   onClick={handleLogout}

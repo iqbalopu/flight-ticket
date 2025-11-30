@@ -11,6 +11,7 @@ import Payment from './pages/Payment'
 import Confirmation from './pages/Confirmation'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Profile from './pages/Profile'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Terms from './pages/Terms'
@@ -38,6 +39,7 @@ function App() {
               <Route path="/confirmation/:bookingId" element={<Confirmation />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<Terms />} />

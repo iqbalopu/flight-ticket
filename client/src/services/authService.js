@@ -2,10 +2,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  updateProfile,
+  updateProfile as updateAuthProfile,
   onAuthStateChanged
 } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../config/firebase'
 
 // Register new user
@@ -16,7 +16,7 @@ export const registerUser = async (email, password, firstName, lastName) => {
     const user = userCredential.user
 
     // Update profile with display name
-    await updateProfile(user, {
+    await updateAuthProfile(user, {
       displayName: `${firstName} ${lastName}`
     })
 
@@ -78,6 +78,32 @@ export const getUserData = async (uid) => {
     return null
   } catch (error) {
     console.error('Error fetching user data:', error)
+    throw error
+  }
+}
+
+// Update user profile
+export const updateProfile = async (user, profileData) => {
+  try {
+    await updateAuthProfile(user, profileData)
+    return { success: true }
+  } catch (error) {
+    console.error('Profile update error:', error)
+    throw error
+  }
+}
+
+// Update user data in Firestore
+export const updateUserData = async (uid, userData) => {
+  try {
+    const userRef = doc(db, 'users', uid)
+    await updateDoc(userRef, {
+      ...userData,
+      updatedAt: new Date().toISOString()
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('User data update error:', error)
     throw error
   }
 }
