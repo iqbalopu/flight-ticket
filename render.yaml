@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: global-flight-backend
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: FRONTEND_URL
+        sync: false
+
