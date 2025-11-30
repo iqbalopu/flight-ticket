@@ -70,14 +70,14 @@ function Home() {
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Popular Destinations</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {['London', 'Paris', 'Tokyo', 'New York', 'Dubai', 'Singapore', 'Sydney', 'Rome'].map((city) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {['London', 'Paris', 'Tokyo', 'New York', 'Dubai', 'Singapore', 'Sydney', 'Rome', 'Barcelona', 'Amsterdam', 'Berlin', 'Istanbul'].map((city) => (
               <div 
                 key={city}
-                className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition cursor-pointer"
+                className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition cursor-pointer transform hover:scale-105"
                 onClick={() => navigate(`/search?destination=${city}`)}
               >
-                <div className="text-4xl mb-2">🌍</div>
+                <div className="text-4xl mb-2">✈️</div>
                 <h3 className="font-semibold">{city}</h3>
               </div>
             ))}

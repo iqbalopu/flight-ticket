@@ -23,7 +23,7 @@ function App() {
   }, [])
 
   return (
-    <Router basename="/flight-ticket">
+    <Router basename={import.meta.env.PROD ? '/flight-ticket' : ''}>
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow">

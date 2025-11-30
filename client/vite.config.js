@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/flight-ticket/', // GitHub Pages base path
+  base: process.env.NODE_ENV === 'production' ? '/flight-ticket/' : '/',
   server: {
     port: 3000
   }
