@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import api from '../config/api'
+import { getBookingById } from '../services/bookingsService'
 import { format } from 'date-fns'
 
 function Confirmation() {
@@ -11,8 +11,8 @@ function Confirmation() {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const response = await api.get(`/bookings/${bookingId}`)
-        setBooking(response.data)
+        const bookingData = await getBookingById(bookingId)
+        setBooking(bookingData)
       } catch (error) {
         console.error('Failed to fetch booking:', error)
       } finally {
@@ -70,13 +70,20 @@ function Confirmation() {
             <div>
               <p className="text-sm text-gray-600">Booking Date</p>
               <p className="font-semibold">
-                {format(new Date(booking.createdAt), 'MMM dd, yyyy HH:mm')}
+                {booking.createdAt 
+                  ? format(booking.createdAt.toDate ? booking.createdAt.toDate() : new Date(booking.createdAt), 'MMM dd, yyyy HH:mm')
+                  : 'N/A'}
               </p>
             </div>
             {booking.paymentDetails && (
               <div>
                 <p className="text-sm text-gray-600">Transaction ID</p>
                 <p className="font-semibold">{booking.paymentDetails.transactionId}</p>
+                {booking.paymentDetails.paidAt && (
+                  <p className="text-xs text-gray-500 mt-1">
+                    Paid: {format(booking.paymentDetails.paidAt.toDate ? booking.paymentDetails.paidAt.toDate() : new Date(booking.paymentDetails.paidAt), 'MMM dd, yyyy HH:mm')}
+                  </p>
+                )}
               </div>
             )}
           </div>

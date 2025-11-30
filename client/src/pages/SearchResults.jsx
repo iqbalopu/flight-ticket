@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import api from '../config/api'
+import { getFlights, initializeFlights } from '../services/flightsService'
 import { format } from 'date-fns'
 
 function SearchResults() {
@@ -18,13 +18,17 @@ function SearchResults() {
     const fetchFlights = async () => {
       try {
         setLoading(true)
-        const params = new URLSearchParams()
-        if (origin) params.append('origin', origin)
-        if (destination) params.append('destination', destination)
-        if (date) params.append('date', date)
+        // Initialize flights if needed
+        await initializeFlights()
+        
+        // Build filters
+        const filters = {}
+        if (origin) filters.origin = origin
+        if (destination) filters.destination = destination
+        if (date) filters.date = date
 
-        const response = await api.get(`/flights?${params.toString()}`)
-        setFlights(response.data)
+        const flightsData = await getFlights(filters)
+        setFlights(flightsData)
         setError(null)
       } catch (err) {
         setError('Failed to fetch flights. Please try again.')

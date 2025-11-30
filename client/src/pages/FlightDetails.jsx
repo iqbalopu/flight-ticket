@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import api from '../config/api'
+import { getFlightById } from '../services/flightsService'
 import { format } from 'date-fns'
 
 function FlightDetails() {
@@ -14,8 +14,8 @@ function FlightDetails() {
   useEffect(() => {
     const fetchFlight = async () => {
       try {
-        const response = await api.get(`/flights/${id}`)
-        setFlight(response.data)
+        const flightData = await getFlightById(id)
+        setFlight(flightData)
       } catch (error) {
         console.error('Failed to fetch flight:', error)
       } finally {

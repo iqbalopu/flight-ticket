@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -13,10 +14,16 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
+import { initializeFlights } from './services/flightsService'
 
 function App() {
+  useEffect(() => {
+    // Initialize flights data on app load
+    initializeFlights()
+  }, [])
+
   return (
-    <Router>
+    <Router basename="/flight-ticket">
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow">

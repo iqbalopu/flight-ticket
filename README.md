@@ -1,6 +1,6 @@
 # Global Flight Ticketing - OTA Website
 
-A full-stack flight booking website built with React and Node.js.
+A full-stack flight booking website built with React and Firebase Firestore, deployed on GitHub Pages.
 
 ## Features
 
@@ -11,105 +11,107 @@ A full-stack flight booking website built with React and Node.js.
 - 📱 Responsive design
 - 🔐 User authentication pages
 - 📄 Standard OTA pages (About, Contact, Terms, Privacy)
+- 🔥 Firebase Firestore for database
+- 🚀 Deployed on GitHub Pages
 
 ## Tech Stack
 
 - **Frontend**: React, Vite, Tailwind CSS, React Router
-- **Backend**: Node.js, Express
-- **Data Storage**: JSON files (can be easily migrated to a database)
+- **Database**: Firebase Firestore
+- **Deployment**: GitHub Pages (with GitHub Actions)
 
-## Getting Started
+## Quick Start
 
 ### Prerequisites
 
 - Node.js (v14 or higher)
 - npm or yarn
+- Firebase account (free)
 
 ### Installation
 
-1. Install root dependencies:
+1. Clone the repository:
 ```bash
-npm install
+git clone https://github.com/iqbalopu/flight-ticket.git
+cd flight-ticket
 ```
 
-2. Install client dependencies:
+2. Install dependencies:
 ```bash
 cd client
 npm install
-cd ..
 ```
 
-Or use the convenience script:
-```bash
-npm run install-all
-```
+3. Set up Firebase:
+   - Follow instructions in [FIREBASE_SETUP.md](./FIREBASE_SETUP.md)
+   - Copy `.env.example` to `.env` and add your Firebase config
 
-### Running the Application
-
-Start both the server and client in development mode:
+4. Run locally:
 ```bash
 npm run dev
 ```
 
-This will start:
-- Backend server on http://localhost:5000
-- Frontend development server on http://localhost:3000
+Visit http://localhost:3000/flight-ticket
 
-### Individual Commands
+## Deployment
 
-- Start backend only: `npm run server`
-- Start frontend only: `npm run client`
+### Quick Deployment to GitHub Pages
+
+1. **Set up Firebase** (see [FIREBASE_SETUP.md](./FIREBASE_SETUP.md))
+2. **Add Firebase secrets to GitHub**:
+   - Go to repository Settings → Secrets and variables → Actions
+   - Add all Firebase config values as secrets
+3. **Enable GitHub Pages**:
+   - Settings → Pages → Source: "GitHub Actions"
+4. **Push to master branch** - deployment happens automatically!
+
+See [GITHUB_PAGES_DEPLOY.md](./GITHUB_PAGES_DEPLOY.md) for detailed instructions.
 
 ## Project Structure
 
 ```
-global-flight-ticketing/
+flight-ticket/
 ├── client/                 # React frontend
 │   ├── src/
 │   │   ├── components/    # Reusable components
 │   │   ├── pages/         # Page components
+│   │   ├── services/      # Firebase services
+│   │   ├── config/        # Firebase configuration
 │   │   └── App.jsx        # Main app component
 │   └── package.json
-├── server/                 # Node.js backend
-│   ├── data/              # JSON data files
-│   └── index.js           # Express server
-└── package.json           # Root package.json
+├── .github/
+│   └── workflows/         # GitHub Actions deployment
+└── README.md
 ```
 
-## API Endpoints
+## Firebase Collections
 
-- `GET /api/flights` - Get all flights (supports query params: origin, destination, date)
-- `GET /api/flights/:id` - Get flight by ID
-- `POST /api/bookings` - Create a booking
-- `GET /api/bookings/:id` - Get booking by ID
-- `POST /api/payments` - Process payment
+- **flights**: Available flights data
+- **bookings**: User bookings and payments
 
-## Sample Data
+## Environment Variables
 
-The application comes with sample flight data that is automatically initialized when the server starts.
+Create `client/.env` with your Firebase config:
 
-## Deployment
+```
+VITE_FIREBASE_API_KEY=your-api-key
+VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your-project-id
+VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+VITE_FIREBASE_APP_ID=your-app-id
+```
 
-The application is ready for deployment! See deployment guides:
+## Live Demo
 
-- **Quick Start**: See [QUICK_DEPLOY.md](./QUICK_DEPLOY.md) for the fastest deployment option
-- **Detailed Guide**: See [DEPLOYMENT.md](./DEPLOYMENT.md) for comprehensive deployment instructions
+After deployment, your site will be available at:
+**https://iqbalopu.github.io/flight-ticket/**
 
-### Recommended Platforms
+## Documentation
 
-- **Frontend**: Vercel or Netlify (free, easy setup)
-- **Backend**: Railway or Render (free tiers available)
-
-### Environment Variables
-
-**Frontend:**
-- `VITE_API_URL`: Your backend API URL (e.g., `https://your-backend.railway.app/api`)
-
-**Backend:**
-- `PORT`: Server port (auto-set by hosting platform)
-- `FRONTEND_URL`: Your frontend URL for CORS (e.g., `https://your-frontend.vercel.app`)
+- [Firebase Setup Guide](./FIREBASE_SETUP.md)
+- [GitHub Pages Deployment](./GITHUB_PAGES_DEPLOY.md)
 
 ## License
 
 ISC
-

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
-import api from '../config/api'
+import { getFlightById } from '../services/flightsService'
+import { createBooking } from '../services/bookingsService'
 
 function Booking() {
   const { flightId } = useParams()
@@ -30,8 +31,8 @@ function Booking() {
   useEffect(() => {
     const fetchFlight = async () => {
       try {
-        const response = await api.get(`/flights/${flightId}`)
-        setFlight(response.data)
+        const flightData = await getFlightById(flightId)
+        setFlight(flightData)
       } catch (error) {
         console.error('Failed to fetch flight:', error)
       } finally {
@@ -57,15 +58,10 @@ function Booking() {
     setSubmitting(true)
 
     try {
-      const response = await api.post('/bookings', {
-        flightId,
-        passengers,
-        contactInfo
-      })
-
-      navigate(`/payment/${response.data.id}`)
+      const booking = await createBooking(flightId, passengers, contactInfo)
+      navigate(`/payment/${booking.id}`)
     } catch (error) {
-      alert(error.response?.data?.error || 'Failed to create booking. Please try again.')
+      alert(error.message || 'Failed to create booking. Please try again.')
       setSubmitting(false)
     }
   }

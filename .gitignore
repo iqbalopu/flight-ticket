@@ -4,6 +4,7 @@ server/data/
 *.log
 .DS_Store
 .env
+client/.env
 dist/
 build/
 

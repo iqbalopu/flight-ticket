@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import api from '../config/api'
+import { getBookingById, processPayment } from '../services/bookingsService'
 
 function Payment() {
   const { bookingId } = useParams()
@@ -20,8 +20,8 @@ function Payment() {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const response = await api.get(`/bookings/${bookingId}`)
-        setBooking(response.data)
+        const bookingData = await getBookingById(bookingId)
+        setBooking(bookingData)
       } catch (error) {
         console.error('Failed to fetch booking:', error)
         alert('Booking not found')
@@ -58,14 +58,10 @@ function Payment() {
     setProcessing(true)
 
     try {
-      await api.post('/payments', {
-        bookingId,
-        paymentDetails
-      })
-
+      await processPayment(bookingId, paymentDetails)
       navigate(`/confirmation/${bookingId}`)
     } catch (error) {
-      alert(error.response?.data?.error || 'Payment failed. Please try again.')
+      alert(error.message || 'Payment failed. Please try again.')
       setProcessing(false)
     }
   }
